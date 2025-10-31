@@ -16,7 +16,7 @@ MERN starter project for "Coding Club Dashboard – One Place for Every Coder".
 2. `npm install`
 3. `npm start`
 
-Open http://localhost:3000
+Open http://localhost:8080
 
 ## Features
 - Welcome header with clock
