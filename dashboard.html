@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Coding Club Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    .animate-spin {
+      animation: spin 1s linear infinite;
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 min-h-screen">
+
+  <!-- HEADER -->
+  <header class="bg-white shadow-md py-6 px-8 flex justify-between items-center">
+    <div class="flex items-center gap-4">
+      <div class="w-14 h-14 bg-gradient-to-br from-blue-600 to-purple-600 rounded-2xl flex items-center justify-center text-white text-xl font-bold">CC</div>
+      <div>
+        <h1 class="text-2xl font-bold text-gray-900">
+          Welcome back, <span th:text="${user}">Alex</span>! 👋
+        </h1>
+        <p class="text-gray-600 text-sm">5-day streak • Intermediate • 1200 points</p>
+      </div>
+    </div>
+    <div class="flex items-center gap-3">
+      <!-- Notification -->
+      <div class="relative">
+        <button id="notifBtn" class="p-3 bg-gray-100 rounded-xl hover:bg-gray-200 relative">
+          🔔
+          <span id="notifCount" class="absolute -top-1 -right-1 bg-red-500 text-white text-xs px-1.5 rounded-full">3</span>
+        </button>
+
+        <div id="notifDropdown" class="hidden absolute right-0 mt-2 w-72 bg-white shadow-lg rounded-xl border border-gray-200 z-10">
+          <div class="flex justify-between items-center px-4 py-2 border-b">
+            <h2 class="font-semibold text-gray-700">Notifications</h2>
+            <button id="markRead" class="text-sm text-blue-600 hover:underline">Mark all as read</button>
+          </div>
+
+          <ul class="max-h-64 overflow-y-auto divide-y divide-gray-100">
+            <li class="p-3 hover:bg-gray-50">
+              <p class="text-sm text-gray-700 font-medium">🎉 New Hackathon: CodeStorm 2025</p>
+              <p class="text-xs text-gray-500">2 hours ago</p>
+            </li>
+            <li class="p-3 hover:bg-gray-50">
+              <p class="text-sm text-gray-700 font-medium">📢 Workshop: Intro to AI Tools</p>
+              <p class="text-xs text-gray-500">1 day ago</p>
+            </li>
+            <li class="p-3 hover:bg-gray-50">
+              <p class="text-sm text-gray-700 font-medium">🏆 You earned a new badge: Bug Hunter!</p>
+              <p class="text-xs text-gray-500">3 days ago</p>
+            </li>
+          </ul>
+
+          <div class="text-center text-sm text-gray-500 py-2 border-t">End of Notifications</div>
+        </div>
+      </div>
+
+      <button id="themeToggle" class="p-3 bg-gray-100 rounded-xl hover:bg-gray-200">
+        🌙
+      </button>
+
+      <a href="/login" class="p-3 bg-gray-100 rounded-xl hover:bg-gray-200">
+        🚪
+      </a>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto p-6">
+    <!-- STATS CARDS -->
+    <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+      <div class="bg-white p-6 rounded-2xl shadow-md hover:shadow-lg transition">
+        <div class="flex justify-between items-center mb-2">
+          <div class="p-3 bg-blue-500 text-white rounded-lg">📅</div>
+        </div>
+        <h2 class="text-3xl font-bold">12</h2>
+        <p class="text-gray-600 text-sm">Events Joined</p>
+      </div>
+      <div class="bg-white p-6 rounded-2xl shadow-md hover:shadow-lg transition">
+        <div class="p-3 bg-purple-500 text-white rounded-lg">🏅</div>
+        <h2 class="text-3xl font-bold">8</h2>
+        <p class="text-gray-600 text-sm">Badges Earned</p>
+      </div>
+      <div class="bg-white p-6 rounded-2xl shadow-md hover:shadow-lg transition">
+        <div class="p-3 bg-orange-500 text-white rounded-lg">💻</div>
+        <h2 class="text-3xl font-bold">5</h2>
+        <p class="text-gray-600 text-sm">Projects</p>
+      </div>
+      <div class="bg-white p-6 rounded-2xl shadow-md hover:shadow-lg transition">
+        <div class="p-3 bg-green-500 text-white rounded-lg">🏆</div>
+        <h2 class="text-3xl font-bold">#3</h2>
+        <p class="text-gray-600 text-sm">Rank</p>
+      </div>
+    </section>
+
+    <!-- EVENTS & ANNOUNCEMENTS -->
+    <section class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-10">
+      <!-- Upcoming Events -->
+      <div class="lg:col-span-2 bg-white p-6 rounded-2xl shadow-md">
+        <h2 class="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-2">📆 Upcoming Events</h2>
+        <div class="space-y-4">
+          <div class="p-4 border rounded-xl hover:border-blue-500 transition">
+            <div class="flex justify-between items-center mb-1">
+              <h3 class="font-semibold text-gray-800">Hackathon 2025</h3>
+              <span class="px-3 py-1 rounded-full text-xs bg-blue-100 text-blue-700 border border-blue-300">Registering</span>
+            </div>
+            <p class="text-sm text-gray-600 mb-2">12 Nov 2025 • Coding Challenge</p>
+            <div class="flex justify-between text-sm text-gray-500">
+              <span>⏰ Starts in 3 days</span>
+              <button class="bg-blue-600 text-white px-3 py-1 rounded-lg hover:bg-blue-700">Register</button>
+            </div>
+          </div>
+
+          <div class="p-4 border rounded-xl hover:border-blue-500 transition">
+            <div class="flex justify-between items-center mb-1">
+              <h3 class="font-semibold text-gray-800">Web Dev Bootcamp</h3>
+              <span class="px-3 py-1 rounded-full text-xs bg-green-100 text-green-700 border border-green-300">Confirmed</span>
+            </div>
+            <p class="text-sm text-gray-600 mb-2">18 Nov 2025 • Workshop</p>
+            <div class="flex justify-between text-sm text-gray-500">
+              <span>⏰ Starts in 8 days</span>
+              <button class="bg-blue-600 text-white px-3 py-1 rounded-lg hover:bg-blue-700">Register</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Announcements -->
+      <div class="bg-white p-6 rounded-2xl shadow-md">
+        <h2 class="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-2">📢 Announcements</h2>
+        <div class="space-y-3">
+          <div class="p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition">
+            <h3 class="font-medium text-gray-800">🚨 Server maintenance on 31 Oct</h3>
+            <p class="text-xs text-gray-500 mt-1">Posted 2 hrs ago</p>
+          </div>
+          <div class="p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition">
+            <h3 class="font-medium text-gray-800">💡 New coding challenge released</h3>
+            <p class="text-xs text-gray-500 mt-1">Posted yesterday</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- LEADERBOARD & PROJECTS -->
+    <section class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <!-- Leaderboard -->
+      <div class="bg-white p-6 rounded-2xl shadow-md">
+        <h2 class="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-2">🏆 Leaderboard</h2>
+        <div class="space-y-3">
+          <div class="flex items-center gap-3 p-3 rounded-xl bg-blue-50">
+            <span class="text-lg font-bold text-gray-700">#1</span>
+            <div class="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-500 text-white flex items-center justify-center rounded-full font-bold">A</div>
+            <div>
+              <p class="font-semibold text-gray-900">Alice</p>
+              <span class="text-sm text-gray-600">1500 points</span>
+            </div>
+          </div>
+          <div class="flex items-center gap-3 p-3 rounded-xl bg-gray-50">
+            <span class="text-lg font-bold text-gray-700">#2</span>
+            <div class="w-10 h-10 bg-gradient-to-br from-green-500 to-emerald-500 text-white flex items-center justify-center rounded-full font-bold">B</div>
+            <div>
+              <p class="font-semibold text-gray-900">Bob</p>
+              <span class="text-sm text-gray-600">1300 points</span>
+            </div>
+          </div>
+          <div class="flex items-center gap-3 p-3 rounded-xl bg-gray-50 border border-blue-500">
+            <span class="text-lg font-bold text-gray-700">#3</span>
+            <div class="w-10 h-10 bg-gradient-to-br from-blue-500 to-cyan-500 text-white flex items-center justify-center rounded-full font-bold">Y</div>
+            <div>
+              <p class="font-semibold text-gray-900">You</p>
+              <span class="text-sm text-gray-600">1200 points</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Projects -->
+      <div class="bg-white p-6 rounded-2xl shadow-md">
+        <h2 class="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-2">💻 Recent Projects</h2>
+        <div class="space-y-3">
+          <div class="p-4 border rounded-xl hover:border-indigo-500 transition">
+            <div class="flex justify-between items-center mb-1">
+              <h3 class="font-semibold text-gray-800">Portfolio Website</h3>
+              <span class="text-xs px-2 py-1 bg-yellow-100 text-yellow-700 rounded-full">Ongoing</span>
+            </div>
+            <p class="text-sm text-gray-600 mb-2">by Alice</p>
+            <div class="flex justify-between text-sm text-gray-500">
+              <span>🌐 HTML • CSS</span>
+              <span>⭐ 14</span>
+            </div>
+          </div>
+
+          <div class="p-4 border rounded-xl hover:border-indigo-500 transition">
+            <div class="flex justify-between items-center mb-1">
+              <h3 class="font-semibold text-gray-800">Quiz App</h3>
+              <span class="text-xs px-2 py-1 bg-green-100 text-green-700 rounded-full">Completed</span>
+            </div>
+            <p class="text-sm text-gray-600 mb-2">by Bob</p>
+            <div class="flex justify-between text-sm text-gray-500">
+              <span>⚙️ React • Tailwind</span>
+              <span>⭐ 20</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="text-center py-6 text-gray-500 text-sm">
+    © 2025 Coding Club • One Place for Every Coder
+  </footer>
+
+  <!-- Scripts -->
+  <script>
+    const notifBtn = document.getElementById('notifBtn');
+    const notifDropdown = document.getElementById('notifDropdown');
+    const markRead = document.getElementById('markRead');
+    const notifCount = document.getElementById('notifCount');
+    const themeToggle = document.getElementById('themeToggle');
+
+    notifBtn.addEventListener('click', () => {
+      notifDropdown.classList.toggle('hidden');
+    });
+
+    markRead.addEventListener('click', () => {
+      notifCount.textContent = '';
+      notifDropdown.classList.add('hidden');
+      alert('All notifications marked as read ✅');
+    });
+
+    window.addEventListener('click', (e) => {
+      if (!notifBtn.contains(e.target) && !notifDropdown.contains(e.target)) {
+        notifDropdown.classList.add('hidden');
+      }
+    });
+
+    themeToggle.addEventListener('click', () => {
+      document.body.classList.toggle('bg-gray-900');
+      document.body.classList.toggle('text-white');
+    });
+  </script>
+
+</body>
+</html>
